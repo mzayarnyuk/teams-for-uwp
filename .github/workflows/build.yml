@@ -3,7 +3,7 @@ name: Build & Release
 env:
   GH_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
 
-on: push
+on: workflow_dispatch
 
 defaults:
   run:
