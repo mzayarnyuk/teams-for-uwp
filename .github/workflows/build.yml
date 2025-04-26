@@ -10,8 +10,8 @@ defaults:
     shell: bash
 
 jobs:
-  
-exe:
+
+  exe:
     runs-on: windows-latest
 
     steps:
