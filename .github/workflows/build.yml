@@ -25,13 +25,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          architecture: 'arm'
 
       - name: Build
         run: npm ci
 
       - name: Release
         if: contains(github.ref, 'main')
-        run: npm run dist:windows -- --publish always
+        run: npm run dist:windows --arm --publish always
         
       - uses: actions/upload-artifact@v4
         with:
