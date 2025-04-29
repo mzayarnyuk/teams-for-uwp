@@ -39,13 +39,16 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Check out Git repository
-    - uses: actions/checkout@v4
+      uses: actions/checkout@v4
+
     - name: Install node
-    - uses: actions/setup-node@v4
+      uses: actions/setup-node@v4
       with:
         node-version: 10.16
+
     - name: install node tools
       run: npm install --global --production windows-build-tools@4.0.0
+
     - name: install node-gyp
       run: npm install --global node-gyp@latest
     - name: Set node config to use python2.7
