@@ -17,6 +17,9 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
+        
+      - name: manual set arch to arm
+        run: set npm_config_arch=arm
 
       - name: Install Node.js and NPM
         uses: actions/setup-node@v4
