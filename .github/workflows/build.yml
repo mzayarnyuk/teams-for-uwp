@@ -17,9 +17,6 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
-        
-      - name: manual set arch to arm
-        run: set npm_config_arch=arm64
 
       - name: Install Node.js and NPM
         uses: actions/setup-node@v4
@@ -31,9 +28,68 @@ jobs:
 
       - name: Release
         if: contains(github.ref, 'main')
-        run: npm run dist:windows --arm64 --publish always
+        run: npm run dist:windows -- --publish always
         
       - uses: actions/upload-artifact@v4
         with:
           name: my-artifact
           path: dist\teams-for-linux Setup 2.0.10.exe
+
+  old:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: feature/github-actions        
+    - uses: actions/setup-node@master
+      with:
+        node-version: 10.16
+    - name: install node tools
+      run: npm install --global --production windows-build-tools@4.0.0
+    - name: install node-gyp
+      run: npm install --global node-gyp@latest
+    - name: Set node config to use python2.7
+      run: npm config set python python2.7
+    - name: Set node config to set msvs_version to 2015
+      run: npm config set msvs_version 2015
+    - name: Work around for Windows Server 2019
+      run: set path=%path%;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin
+    - name: Install dependencies
+      run: yarn install
+    - name: check env
+      env:
+        ELECTRON: true
+        APP_VERSION_NUMBER: 0.5.9
+      run: set
+    - name: Build on Windows
+      env:
+        ELECTRON: true
+        APP_VERSION_NUMBER: 0.5.9
+      run: yarn build
+    - name: Build Electron
+      env:
+        ELECTRON: true
+        APP_VERSION_NUMBER: 0.5.9
+      run: yarn electron:buildWin
+    - name: see directory
+      run: ls ./electron_dist/squirrel-windows
+    - uses: lucyio/upload-to-release@master
+      with:
+        name: lucyio/electron
+        path: ./electron_dist/squirrel-windows
+        action: unpublished
+        release_id: 0.5.9
+        release-repo: lucyio/electron
+
+    - name: Build
+      run: npm ci
+
+    - name: Release
+      if: contains(github.ref, 'main')
+      run: npm run dist:windows -- --publish always
+        
+    - uses: actions/upload-artifact@v4
+      with:
+        name: my-artifact2
+        path: dist|
