@@ -11,38 +11,38 @@ defaults:
 
 jobs:
 
-  exe:
-    runs-on: windows-latest
+#  exe:
+#    runs-on: windows-latest
 
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v4
+ #   steps:
+ #     - name: Check out Git repository
+ #       uses: actions/checkout@v4
 
-      - name: Install Node.js and NPM
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+ #     - name: Install Node.js and NPM
+ #       uses: actions/setup-node@v4
+ #       with:
+ #         node-version: 20
 
-      - name: Build
-        run: npm ci
+ #     - name: Build
+ #       run: npm ci
 
-      - name: Release
-        if: contains(github.ref, 'main')
-        run: npm run dist:windows -- --publish always
+ #     - name: Release
+ #       if: contains(github.ref, 'main')
+ #       run: npm run dist:windows -- --publish always
         
-      - uses: actions/upload-artifact@v4
-        with:
-          name: my-artifact
-          path: dist\teams-for-linux Setup 2.0.10.exe
+ #     - uses: actions/upload-artifact@v4
+ #       with:
+ #         name: my-artifact
+ #         path: dist\teams-for-linux Setup 2.0.10.exe
 
   old:
     runs-on: windows-latest
     
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v4
       with:
         ref: feature/github-actions        
-    - uses: actions/setup-node@master
+    - uses: actions/setup-node@v4
       with:
         node-version: 10.16
     - name: install node tools
