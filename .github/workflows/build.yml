@@ -19,13 +19,13 @@ jobs:
         uses: actions/checkout@v4
         
       - name: manual set arch to arm
-        run: set npm_config_arch=arm32
+        run: set npm_config_arch=arm64
 
       - name: Install Node.js and NPM
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          architecture: 'arm32'
+          architecture: 'arm64'
 
       - name: Build
         run: npm ci
